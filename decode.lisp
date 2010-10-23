@@ -102,7 +102,7 @@
       +NEW_FLOAT+     (erl-new-float (uint 8))
       +ATOM+          (erl-atom len=(uint 2) (string len))
       +SMALL_ATOM+    (erl-atom len=(byte)   (string len))
-      +STRING+        (octets   len=(uint 2) (octets len))
+      +STRING+        (erl-string len=(uint 2) (octets len))
       +LIST+          (erl-list len=(uint 4) (list len) (term))
       +NIL+           (list)
       +SMALL_TUPLE+   (tuple arity=(byte)   (array (term) arity))

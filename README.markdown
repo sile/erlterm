@@ -15,6 +15,24 @@
     * (require :asdf-install)
     * (asdf-install:install "erlterm-0.0.1.tar.gz")
 
+## 変換ルール
+- Erlang <=> Common Lisp
+- 数値 <=> 数値
+- 文字列 <=> ユニコード値のリスト  
+  - ※ Erlangの文字列の文字のコード値が全て0x100の場合で、かつ長さが0x10000未満の場合は、Common Lisp側でも文字列に変換される
+- アトム <=> キーワード
+  - 相互変換の際には名前の大文字小文字が入れ替わる
+  - Common LispからErlangへの変換時には通常のシンボルもアトムに変換される
+- リスト <=> リスト
+- タプル <=> 配列
+- バイナリ <=> バイト配列:(vector (unsigned-byte 8))
+- ビットバイナリ <=> ビット配列:bit-vector
+- 参照 <=> erlterm::reference or erlterm::new-reference
+- ポート <=> erlterm::port
+- PID <=> erlterm::pid
+- 関数 <=> erlterm::fun or erlterm::new-fun
+- エクスポート <=> erlterm::erl-export
+
 ## API
 #### Package# erlterm
 > メインパッケージ
@@ -49,8 +67,9 @@
 ポートを使った通信例:
     %% Erlang側
     %% 
-Port = open_port({spawn, "sbcl --script reverse.lisp"}, [{packet, 2}]).
-
+Port = open_port({spawn, "sbcl --script reverse.lisp"}, [{packet, 2},binary]).
+Port ! {self(), {command, term_to_binary([1,2,3])}}.
+Port ! {self(), {command, [1,2,3]}}.
 
 ## TODO
 - 全体的な最適化

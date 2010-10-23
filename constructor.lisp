@@ -1,7 +1,7 @@
 (in-package :erlterm)
 
 (declaim (inline int octets erl-list erl-bignum tuple bit-binary 
-                 erl-atom erl-float erl-new-float
+                 erl-atom erl-float erl-new-float erl-string
                  reference port pid new-reference fun new-fun erl-export))
 
 (defun int (int)
@@ -24,6 +24,10 @@
   (ecase sign
     (0 num)
     (1 (- num))))
+
+(defun erl-string (len octets)
+  (declare (ignore len))
+  (map 'string #'code-char octets))
 
 (defun tuple (arity array)
   (declare (ignore arity))
