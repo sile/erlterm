@@ -1,7 +1,7 @@
 # README
 ## 概要
 - Erlangの項(のバイナリ表現)とCommon Lispのオブジェクトの相互変換を行う
-- Common LispとErlangのポート経由(open_port,port_command,etc)での通信時の利用を想定
+- Common LispとErlangのポート経由(open_port,port_call,etc)での通信時の利用を想定
 
 ## 注意事項
 - 文字列を扱う場合、使用するCommon Lispの処理系がユニコード(UTF-32)に対応していない場合、文字化けが生じる可能性がある
@@ -49,6 +49,8 @@
 ポートを使った通信例:
     %% Erlang側
     %% 
+Port = open_port({spawn, "sbcl --script reverse.lisp"}, [{packet, 2}]).
+
 
 ## TODO
 - 全体的な最適化

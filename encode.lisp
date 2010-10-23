@@ -163,7 +163,7 @@
   (declare ((member nil 1 2 4) packet)
            ((member 0 1) minor-version))
   (let ((*minor-version* minor-version))
-    (let ((bytes (term-to-bin term)))
+    (let ((bytes (coerce (term-to-bin term) 'octets)))
       (when packet
         (let ((size (1+ (length bytes))))
           (assert (< size (expt #x100 packet)))

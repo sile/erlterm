@@ -9,6 +9,7 @@
 (defvar *muffle-compiler-note* #+SBCL '(sb-ext:muffle-conditions sb-ext:compiler-note))
 
 (deftype octet () '(unsigned-byte 8))
+(deftype octets () '(vector octet))
 (deftype erl-atom () '(or keyword #+IGNORE atom-cache-ref))
 
 (defvar *minor-version* 1)
