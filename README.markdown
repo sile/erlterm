@@ -85,7 +85,7 @@
           (erlterm:encode-term (reverse list) *out* :packet 2)  ; 反転して返す
           (force-output *out*)))
       (end-of-file ()
-        (format *error-output* "~&FINISH~%~%")))
+        'done))
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%% Erlang側(補助モジュール)# ポート関連の操作をラップ
@@ -109,12 +109,12 @@
     %%%% Erlang側(shell)# Common Lispとの通信
     > c(port_rpc). % コンパイル & ロード
     
-    > Port = port_rpc:open("sbcl --script reverse.lisp"). 
+    > Port = port_rpc:open("sbcl --script reverse.lisp").     % ポートオープン
     
-    > port_rpc:call(Port, [first, {1, "middle", 3.2}, last]).
-      -> [last, {1, "middle", 3.2}, first]
+    > port_rpc:call(Port, [first, {1, "middle", 3.2}, last]). % Common Lisp呼び出し
+      => [last, {1, "middle", 3.2}, first]                    % => 反転されたリストが返る
 
-    > port_rpc:close(Port).
+    > port_rpc:close(Port).                                   % ポートクローズ
 
 
 ## TODO
