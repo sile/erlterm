@@ -17,27 +17,27 @@
 
 ## API
 #### Package# erlterm
-     > メインパッケージ
+   > メインパッケージ
 
 #### Function# (decode-term binary-input-stream &key (packet nil)) => term
-     > Erlang項のバイナリエンコーディングをCommon Lispのオブジェクトにデコードする
-     > binary-intput-stream: 入力元のバイナリストリーム
-     > packet: バイナリデータ本体の前に、受信するバイトの長さが付与されている場合は、そのサイズデータのバイト長を指定する。
-     >         サイズデータが付与されていない場合はnilを指定する。
-     >         (member nil 1 2 4)
-     >         ※ 現バージョンでは、このサイズデータは単に読み捨てられている
-     > term: デコードされたCommon Lispオブジェクト
+   > Erlang項のバイナリエンコーディングをCommon Lispのオブジェクトにデコードする
+   > binary-intput-stream: 入力元のバイナリストリーム
+   > packet: バイナリデータ本体の前に、受信するバイトの長さが付与されている場合は、そのサイズデータのバイト長を指定する。
+   >         サイズデータが付与されていない場合はnilを指定する。
+   >         (member nil 1 2 4)
+   >         ※ 現バージョンでは、このサイズデータは単に読み捨てられている
+   > term: デコードされたCommon Lispオブジェクト
 
 #### Function# (encode-term term binary-output-stream &key (packet nil) (minor-version 0)) => t
-     > Common LispのオブジェクトをErlang項のバイナリフォーマットにエンコードする
-     > term: エンコード対象となるオブジェクト
-     > binary-output-stream: バイナリデータ出力先のストリーム
-     > packet: バイナリデータ本体の前に、出力バイト数を付与する場合は、そのサイズデータに用いるバイト長を指定する。
-     >         サイズデータを付与しない場合はnilを指定する。
-     >         (member nil 1 2 4)
-     > minor-version: バイナリフォーマットのマイナーバージョン。
-     >                0 or 1。
-     >                1の場合は浮動小数点数のエンコーディングに、新しいフォーマットが使用される。
+   > Common LispのオブジェクトをErlang項のバイナリフォーマットにエンコードする
+   > term: エンコード対象となるオブジェクト
+   > binary-output-stream: バイナリデータ出力先のストリーム
+   > packet: バイナリデータ本体の前に、出力バイト数を付与する場合は、そのサイズデータに用いるバイト長を指定する。
+   >         サイズデータを付与しない場合はnilを指定する。
+   >         (member nil 1 2 4)
+   > minor-version: バイナリフォーマットのマイナーバージョン。
+   >                0 or 1。
+   >                1の場合は浮動小数点数のエンコーディングに、新しいフォーマットが使用される。
 
 ## 参照
 - Erlang項のバイナリフォーマット
