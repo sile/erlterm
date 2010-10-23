@@ -10,5 +10,5 @@
   :components ((:file "package")
                (:file "util")
                (:file "constructor")
-               (:file "decode")))
-
+               (:file "decode")
+               (:file "encode")))

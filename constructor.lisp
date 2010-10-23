@@ -13,9 +13,7 @@
 
 (defun erl-atom (len atom-name)
   (assert (<= 0 len 255))
-  (if *preserve-atom-case*
-      (intern atom-name :keyword)
-    (intern (string-upcase atom-name) :keyword)))
+  (intern (string-inverse-case atom-name) :keyword))
 
 (defun erl-list (len list tail)
   (declare (ignore len))

@@ -122,10 +122,10 @@
       +ATOM_CACHE_REF+ (error "[TAG ~A(ATOM_CACHE_REF)]: not implemented" tag)
       +DIST_HEADER+    (error "[TAG ~A(DISTRIBUTION_HEADER)]: not implemented" tag))))
 
-(defun decode-term (binary-input-stream &key (preserve-atom-case t) packet)
-  (let ((version (read-byte binary-input-stream))
-        (*preserve-atom-case* preserve-atom-case))
-    (assert (= version 131))
-    (when packet
-      (loop REPEAT packet DO (read-byte binary-input-stream))) ; TODO: message length check
+(defun decode-term (binary-input-stream &key packet)
+  (declare ((member nil 1 2 4) packet))
+  (when packet
+    (loop REPEAT packet DO (read-byte binary-input-stream))) ; TODO: message length check
+  (let ((version (read-byte binary-input-stream)))
+    (assert (= version +VERSION+))
     (read-term binary-input-stream)))

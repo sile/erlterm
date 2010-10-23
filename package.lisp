@@ -11,8 +11,9 @@
 (deftype octet () '(unsigned-byte 8))
 (deftype erl-atom () '(or keyword #+IGNORE atom-cache-ref))
 
-(defvar *preserve-atom-case* t)
 (defvar *minor-version* 1)
+
+(defconstant +VERSION+ 131)
 
 (defconstant +SMALL_INTEGER+ 97)
 (defconstant +INTEGER+ 98)

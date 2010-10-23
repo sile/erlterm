@@ -9,4 +9,14 @@
    (with-output-to-string (out)
      (dolist (a args) (princ a out)))))
 
+(defun string-inverse-case (str)
+  (map 'string (lambda (ch)
+                 (cond ((upper-case-p ch)
+                        (char-downcase ch))
+                       ((lower-case-p ch)
+                        (char-upcase ch))
+                       (t
+                        ch)))
+       str))
+
 
