@@ -67,7 +67,7 @@
 (defun string-to-bin (str)
   (if (and (< (length str) #x10000)
            (every (lambda (c) (< (char-code c) #x100)) str))
-      `(,+STRING+ ,@(int-to-be-bytes (length str) 2) ,@(map 'octets #'char-code str))
+      `(,+STRING+ ,@(int-to-be-bytes (length str) 2) ,@(map 'list #'char-code str))
     (list-to-bin (map 'list #'char-code str))))
 
 (defun octets-to-bin (octets)

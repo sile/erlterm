@@ -16,7 +16,7 @@
     * (asdf-install:install "erlterm-0.0.1.tar.gz")
 
 ## 変換ルール
-- Erlang <=> Common Lisp
+- **Erlang** <=> **Common Lisp**
 - 数値 <=> 数値
 - 文字列 <=> ユニコード値のリスト  
   - Erlangの文字列の文字のコード値が全て0x100の場合で、かつ長さが0x10000未満の場合は、Common Lisp側でも文字列に変換される
