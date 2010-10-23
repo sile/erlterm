@@ -34,7 +34,7 @@
   bit-string)
 
 (defstruct reference
-  (node   nil :type node               :read-only t)
+  (node   nil :type atom               :read-only t)
   (id       0 :type (unsigned-byte 32) :read-only t)
   (creation 0 :type (unsigned-byte 8)  :read-only t))
 (defun reference (node id creation)
@@ -43,14 +43,14 @@
   (make-reference :node node :id id :creation creation))
 
 (defstruct port 
-  (node     nil :type node               :read-only t)
+  (node     nil :type atom               :read-only t)
   (id         0 :type (unsigned-byte 32) :read-only t)
   (creation   0 :type (unsigned-byte 8)  :read-only t))
 (defun port (node id creation)
   (make-port :node node :id id :creation creation))
 
 (defstruct pid
-  (node     nil :type node               :read-only t)
+  (node     nil :type atom               :read-only t)
   (id         0 :type (unsigned-byte 32) :read-only t)
   (serial     0 :type (unsigned-byte 32) :read-only t)
   (creation   0 :type (unsigned-byte 8)  :read-only t))
@@ -59,7 +59,7 @@
   (make-pid :node node :id id :serial serial :creation creation))
 
 (defstruct new-reference
-  (node   nil :type node                              :read-only t)
+  (node   nil :type atom                              :read-only t)
   (creation 0 :type (unsigned-byte 8)                 :read-only t)
   (id     #() :type (simple-array (unsigned-byte 32)) :read-only t))
 (defun new-reference (len node creation id)

@@ -1,27 +1,28 @@
 (in-package :erlterm)
 
-(defun generate-decoder-helper (operands &optional vars readers bind)
-  (if (null operands)
-      (values vars (nreverse readers))
-    (destructuring-bind (op . rest) operands
-      (if (symbolp op)
-          (generate-decoder-helper rest (cons (sym-trunc-last op) vars) readers t)
-        (destructuring-bind (fn . args) op
-          (if (null bind)
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun generate-decoder-helper (operands &optional vars readers bind)
+    (if (null operands)
+        (values vars (nreverse readers))
+      (destructuring-bind (op . rest) operands
+        (if (symbolp op)
+            (generate-decoder-helper rest (cons (sym-trunc-last op) vars) readers t)
+          (destructuring-bind (fn . args) op
+            (if (null bind)
+                (generate-decoder-helper rest vars
+                                         `((,(symb 'read- fn) in ,@args) . ,readers)
+                                         nil)
               (generate-decoder-helper rest vars
-                                       `((,(symb 'read- fn) in ,@args) . ,readers)
-                                       nil)
-            (generate-decoder-helper rest vars
-                                     `((setf ,(car vars) (,(symb 'read- fn) in ,@args)) . ,readers)
-                                     nil)))))))
-
-(defun generate-decoder (definition)
-  (if (eq (car definition) 'error)
-      definition
-  (destructuring-bind (constructor . operands) definition
-    (multiple-value-bind (vars readers) (generate-decoder-helper operands)
-      `(let ,vars
-         (,constructor ,@readers))))))
+                                       `((setf ,(car vars) (,(symb 'read- fn) in ,@args)) . ,readers)
+                                       nil)))))))
+  
+  (defun generate-decoder (definition)
+    (if (eq (car definition) 'error)
+        definition
+      (destructuring-bind (constructor . operands) definition
+        (multiple-value-bind (vars readers) (generate-decoder-helper operands)
+          `(let ,vars
+             (,constructor ,@readers)))))))
 
 (defmacro erlang-tag-case (tag &rest case-clauses) 
   `(case ,tag

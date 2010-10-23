@@ -46,6 +46,9 @@
   - <http://www.erlang.org/doc/apps/erts/erl_ext_dist.html>
 
 ## 使用例
+ポートを使った通信例:
+    %% Erlang側
+    %% 
 
 ## TODO
 - 全体的な最適化
