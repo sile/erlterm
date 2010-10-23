@@ -1,6 +1,6 @@
 (in-package :erlterm)
 
-(declaim (inline int-to-be-bytes int-to-le-bytes
+(declaim (inline int-to-be-bytes int-to-le-bytes float-to-str
                  int-to-bin float-to-bin real-to-bin symbol-to-bin
                  nil-to-bin string-to-bin list-to-bin octets-to-bin 
                  bit-vector-to-bin vector-to-bin 
@@ -30,9 +30,12 @@
          `(,+LARGE_BIG+ ,@(int-to-be-bytes byte-width 4) ,sign ,@bytes))))))
 
 ;; float
+(defun float-to-str (float &aux (*read-default-float-format* 'double-float))
+  (format nil #.(mkstr "~31,,,'"#\Null"@<~,20e~>") float))
+
 (defun float-to-bin (float &aux (float (float float 1.0d0)))
   (if (= *minor-version* 0)
-      ()
+      `(,+FLOAT+ ,@(map 'list #'char-code (float-to-str float)))
     (multiple-value-bind (fraction exponent sign) 
                          (integer-decode-float float)
       (let ((ieee-double 0))

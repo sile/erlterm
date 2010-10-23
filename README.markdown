@@ -66,11 +66,56 @@
 
 ## 使用例
 ポートを使った通信例:
-    %% Erlang側
-    %% 
-Port = open_port({spawn, "sbcl --script reverse.lisp"}, [{packet, 2},binary]).
-Port ! {self(), {command, term_to_binary([1,2,3])}}.
-Port ! {self(), {command, [1,2,3]}}.
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;;; Common Lisp側# リストの反転を行う
+    ;;;; ファイル名: reverse.lisp
+    ;;;;
+    ;;;; 処理系: sbcl-1.0.40  
+    ;;;;         ※ 標準入出力に対してバイナリ操作が行えるのは(おそらく)SBCLの拡張
+    (require :asdf)
+    (require :erlterm)
+    
+    (defvar *in* *standard-input*)
+    (defvar *out* *standard-output*)
+    
+    (handler-case
+      (loop
+        (let ((list (erlterm:decode-term *in* :packet 2)))      ; リストを受け取る
+          (erlterm:encode-term (reverse list) *out* :packet 2)  ; 反転して返す
+          (force-output *out*)))
+      (end-of-file ()
+        (format *error-output* "~&FINISH~%~%")))
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%% Erlang側(補助モジュール)# ポート関連の操作をラップ
+    %%%% ファイル名: port_rpc.erl
+    -module(port_rpc).
+    -export([open/1,close/1,call/2]).
+    
+    open(Command) ->
+        open_port({spawn, Command}, [{packet, 2},binary]).
+    
+    close(Port) ->
+        Port ! {self(), close}.
+    
+    call(Port, Message) ->
+        Port ! {self(), {command, term_to_binary(Message)}},
+        receive 
+            {Port, {data, Data}} -> binary_to_term(Data)
+        end.
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%% Erlang側(shell)# Common Lispとの通信
+    > c(port_rpc). % コンパイル & ロード
+    
+    > Port = port_rpc:open("sbcl --script reverse.lisp"). 
+    
+    > port_rpc:call(Port, [first, {1, "middle", 3.2}, last]).
+      -> [last, {1, "middle", 3.2}, first]
+
+    > port_rpc:close(Port).
+
 
 ## TODO
 - 全体的な最適化

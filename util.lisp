@@ -19,4 +19,8 @@
                         ch)))
        str))
 
+(defun mkstr (&rest args)
+  (with-output-to-string (out)
+    (dolist (a args)
+      (princ a out))))
 
