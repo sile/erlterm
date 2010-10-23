@@ -17,16 +17,17 @@
 
 ## API
 #### Package# erlterm
-   > メインパッケージ
+> メインパッケージ
 
 #### Function# (decode-term binary-input-stream &key (packet nil)) => term
-   > Erlang項のバイナリエンコーディングをCommon Lispのオブジェクトにデコードする
-   > binary-intput-stream: 入力元のバイナリストリーム
-   > packet: バイナリデータ本体の前に、受信するバイトの長さが付与されている場合は、そのサイズデータのバイト長を指定する。
-   >         サイズデータが付与されていない場合はnilを指定する。
-   >         (member nil 1 2 4)
-   >         ※ 現バージョンでは、このサイズデータは単に読み捨てられている
-   > term: デコードされたCommon Lispオブジェクト
+> Erlang項のバイナリエンコーディングをCommon Lispのオブジェクトにデコードする。  
+>
+> *binary-intput-stream:* 入力元のバイナリストリーム  
+> *packet:* バイナリデータ本体の前に、受信するバイトの長さが付与されている場合は、そのサイズデータのバイト長を指定する。  
+>           サイズデータが付与されていない場合はnilを指定する。  
+>           (member nil 1 2 4)  
+>           ※ 現バージョンでは、このサイズデータは単に読み捨てられる。  
+> *term:* デコードされたCommon Lispオブジェクト
 
 #### Function# (encode-term term binary-output-stream &key (packet nil) (minor-version 0)) => t
    > Common LispのオブジェクトをErlang項のバイナリフォーマットにエンコードする
